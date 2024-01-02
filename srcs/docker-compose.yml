@@ -10,7 +10,6 @@ services:
       - certbot
     networks:
       - inception-network
-    platform: linux/x86_64
     ports:
       - 443:443
     restart: always
@@ -19,8 +18,20 @@ services:
     build:
       context: ./requirements/bonus/certbot/
       dockerfile: Dockerfile
+    command: >
+      -v
+      certonly --noninteractive
+      --agree-tos
+      --cert-name slickstack
+      -d ${DOMAIN_NAME}
+      --register-unsafely-without-email
+      --webroot -w /var/www/html/
     container_name: certbot
     platform: linux/x86_64
+    volumes:
+      - type: bind
+        source: ./requirements/bonus/certbot/certs
+        target: /etc/letsencrypt/live/$(DOMAIN_NAME)
 
 networks:
   inception-network:
