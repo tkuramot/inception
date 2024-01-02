@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./requirements/nginx/
+      dockerfile: Dockerfile
+    container_name: nginx
+    depends_on:
+      - certbot
+    networks:
+      - inception-network
+    platform: linux/x86_64
+    ports:
+      - 443:443
+    restart: always
+
+  certbot:
+    build:
+      context: ./requirements/bonus/certbot/
+      dockerfile: Dockerfile
+    container_name: certbot
+    platform: linux/x86_64
+
+networks:
+  inception-network:
+    name: inception-network
