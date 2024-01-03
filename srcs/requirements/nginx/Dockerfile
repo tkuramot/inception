@@ -8,8 +8,8 @@ RUN set -x \
   && rm -rf /var/lib/apt/lists/* \
   && nginx -t
 
-COPY ./conf/default.conf /etc/nginx/conf.d/default.conf
-COPY ./index.html /var/www/index.html
+COPY ./conf/conf.d /etc/nginx/conf.d
+COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 443
 
