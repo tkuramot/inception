@@ -22,16 +22,26 @@ services:
 
   wordpress:
     container_name: wordpress
-    restart: always
     build:
       context: ./requirements/wordpress/
       dockerfile: Dockerfile
+    restart: always
+    environment:
+      DOMAIN_NAME: "${DOMAIN_NAME}"
+      WORDPRESS_TITLE: "${WORDPRESS_TITLE}"
+      WORDPRESS_ADMIN_USER: "${WORDPRESS_ADMIN_USER}"
+      WORDPRESS_ADMIN_PASSWORD: "${WORDPRESS_ADMIN_PASSWORD}"
+      WORDPRESS_ADMIN_EMAIL: "${WORDPRESS_ADMIN_EMAIL}"
+      WORDPRESS_DB_HOST: mariadb
+      WORDPRESS_DB_USER: "${MYSQL_USER}"
+      WORDPRESS_DB_PASSWORD: "${MYSQL_PASSWORD}"
+      WORDPRESS_DB_NAME: "${MYSQL_DB_NAME}"
     volumes:
       - type: bind
         source: ~/data/wordpress
         target: /var/www/html
-    depends_on:
-      - mariadb
+    # depends_on:
+    #   - mariadb
     networks:
       - inception-network
     ports:
@@ -44,10 +54,10 @@ services:
       dockerfile: Dockerfile
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DB_NAME: "${MYSQL_DB_NAME}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
     volumes:
       - type: bind
         source: ~/data/mariadb
