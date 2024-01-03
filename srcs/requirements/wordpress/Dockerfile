@@ -2,6 +2,8 @@ FROM debian:bullseye
 
 WORKDIR /var/www/html
 
+ENV WP_CLI_CONFIG_PATH=/etc/wp-cli/wp-cli.yml
+
 RUN set -eux; \
   apt-get update; \
   apt-get install -y --no-install-recommends \
@@ -14,12 +16,12 @@ RUN set -eux; \
   chmod +x /usr/local/bin/wp;
 
 COPY ./tools/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+COPY ./conf/wp-cli.yml /etc/wp-cli/wp-cli.yml
 
 RUN chown -R www-data:www-data /var/www; \
   chmod +x /usr/local/bin/docker-entrypoint.sh
 
 USER www-data
-RUN wp core download --locale=ja
 
 EXPOSE 9000
 
