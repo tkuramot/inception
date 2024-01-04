@@ -20,7 +20,6 @@ RUN set -eux; \
   chown -R www-data:www-data /var/www
 
 COPY ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
-COPY ./conf/wp-cli.yml /etc/wp-cli.yml
 
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
