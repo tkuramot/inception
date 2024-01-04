@@ -4,7 +4,7 @@ RUN set -x; \
   apt-get update; \
   apt-get install -y --no-install-recommends \
   mariadb-server \
-  mariadb-client; \
+  vim; \
   rm -rf /var/lib/apt/lists/*; \
   mkdir -p /var/lib/mysql /run/mysqld; \
   chown -R mysql:mysql /var/lib/mysql /run/mysqld; \

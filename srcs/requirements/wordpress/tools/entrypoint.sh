@@ -34,5 +34,4 @@ if ! gosu www-data wp core is-installed; then
   gosu www-data wp option update permalink_structure /%postname%/
 fi
 
-tail -f /dev/null
-
+exec php-fpm7.4 -F

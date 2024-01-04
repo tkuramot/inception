@@ -1,7 +1,10 @@
 #!/bin/bash
 set -eux
 
-mysql_install_db --user=root --datadir=/var/lib/mysql
+# insatall db when it is not installed
+if [ ! -d /var/lib/mysql/mysql ]; then
+  mysql_install_db --user=root --datadir=/var/lib/mysql
+fi
 
 exec mariadbd --user=root \
   --datadir=/var/lib/mysql \
