@@ -1,16 +1,18 @@
 FROM debian:bullseye
 
-RUN mkdir /docker-entrypoint-initdb.d
-
 RUN set -x; \
   apt-get update; \
   apt-get install -y --no-install-recommends \
-  mariadb-server; \
+  mariadb-server \
+  mariadb-client; \
   rm -rf /var/lib/apt/lists/*; \
+  mkdir -p /var/lib/mysql /run/mysqld; \
+  chown -R mysql:mysql /var/lib/mysql /run/mysqld; \
+  chmod 1777 /run/mysqld
 
-COPY ./tools/docker-entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["docker-entrypoint.sh"]
+COPY ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 EXPOSE 3306
 
-CMD ["mysqld"]
+CMD ["entrypoint.sh"]

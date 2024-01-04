@@ -1,23 +1,23 @@
 version: '3'
 
 services:
-  nginx:
-    container_name: nginx
-    build:
-      context: ./requirements/nginx/
-      dockerfile: Dockerfile
-    restart: always
-    volumes:
-      - type: bind
-        source: ~/data/wordpress
-        target: /var/www/html
-    depends_on:
-      - wordpress
-      - certbot
-    networks:
-      - inception-network
-    ports:
-      - 443:443
+  # nginx:
+  #   container_name: nginx
+  #   build:
+  #     context: ./requirements/nginx/
+  #     dockerfile: Dockerfile
+  #   restart: always
+  #   volumes:
+  #     - type: bind
+  #       source: ~/data/wordpress
+  #       target: /var/www/html
+  #   depends_on:
+  #     - wordpress
+  #     - certbot
+  #   networks:
+  #     - inception-network
+  #   ports:
+  #     - 443:443
         
 
   wordpress:
@@ -25,7 +25,7 @@ services:
     build:
       context: ./requirements/wordpress/
       dockerfile: Dockerfile
-    restart: always
+    restart: unless-stopped
     environment:
       DOMAIN_NAME: "${DOMAIN_NAME}"
       WORDPRESS_TITLE: "${WORDPRESS_TITLE}"
@@ -40,8 +40,8 @@ services:
       - type: bind
         source: ~/data/wordpress
         target: /var/www/html
-    # depends_on:
-    #   - mariadb
+    depends_on:
+      - mariadb
     networks:
       - inception-network
     ports:
@@ -52,7 +52,7 @@ services:
     build:
       context: ./requirements/mariadb/
       dockerfile: Dockerfile
-    restart: always
+    restart: unless-stopped
     environment:
       MYSQL_DB_NAME: "${MYSQL_DB_NAME}"
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
@@ -67,25 +67,25 @@ services:
     ports:
       - 3306:3306
 
-  certbot:
-    container_name: certbot
-    image: certbot/certbot:latest
-    restart: always
-    volumes:
-      - type: bind
-        source: ./requirements/bonus/certbot/certs
-        target: /etc/letsencrypt/live/$(DOMAIN_NAME)
-    command: >
-      -v
-      certonly --noninteractive
-      --agree-tos
-      --cert-name slickstack
-      -d ${DOMAIN_NAME}
-      --register-unsafely-without-email
-      --webroot -w /var/www/html/
-    networks:
-      - inception-network
-    platform: linux/x86_64
+  # certbot:
+  #   container_name: certbot
+  #   image: certbot/certbot:latest
+  #   restart: always
+  #   volumes:
+  #     - type: bind
+  #       source: ./requirements/bonus/certbot/certs
+  #       target: /etc/letsencrypt/live/$(DOMAIN_NAME)
+  #   command: >
+  #     -v
+  #     certonly --noninteractive
+  #     --agree-tos
+  #     --cert-name slickstack
+  #     -d ${DOMAIN_NAME}
+  #     --register-unsafely-without-email
+  #     --webroot -w /var/www/html/
+  #   networks:
+  #     - inception-network
+  #   platform: linux/x86_64
 
 networks:
   inception-network:

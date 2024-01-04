@@ -4,7 +4,7 @@ WORDPRESS_DIR = ~/data/wordpress
 MARIA_DB_DIR = ~/data/mariadb
 
 up: build
-	@docker compose -f ./srcs/docker-compose.yml up -d if()
+	@docker compose -f ./srcs/docker-compose.yml up -d
 
 down:
 	@docker compose -f ./srcs/docker-compose.yml down
