@@ -17,7 +17,7 @@ if [ ! -f "$config_file" ]; then
 fi
 
 # check if WordPress is already installed
-if [ ! wp core is-installed ]; then
+if ! gosu www-data wp core is-installed; then
   gosu www-data wp core install
   gosu www-data wp option update permalink_structure /%postname%/
 fi
