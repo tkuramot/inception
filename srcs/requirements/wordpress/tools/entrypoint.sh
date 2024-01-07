@@ -5,8 +5,6 @@ directory="/var/www/html"
 index_file="${directory}/index.php"
 config_file="${directory}/wp-config.php"
 
-env
-
 # check if wordpress is already downloaded
 if [ ! -f "$index_file" ]; then
   gosu www-data wp core download --locale=ja --version="${WORDPRESS_VERSION}"
@@ -34,5 +32,4 @@ if ! gosu www-data wp core is-installed; then
   gosu www-data wp option update permalink_structure /%postname%/
 fi
 
-# tail -f /dev/null
 exec php-fpm7.4 -F
