@@ -6,25 +6,30 @@ services:
     build:
       context: ./requirements/nginx/
       dockerfile: Dockerfile
-    restart: always
+    ports:
+      - 443:443
+      - 80:80
+    networks:
+      - inception-network
     volumes:
       - type: bind
         source: ~/data/wordpress
         target: /var/www/html
     depends_on:
       - wordpress
-    networks:
-      - inception-network
-    ports:
-      - 443:443
-      - 80:80
+    restart: always
 
   wordpress:
     container_name: wordpress
     build:
       context: ./requirements/wordpress/
       dockerfile: Dockerfile
-    restart: always
+    networks:
+      - inception-network
+    volumes:
+      - type: bind
+        source: ~/data/wordpress
+        target: /var/www/html
     environment:
       DOMAIN_NAME: ${DOMAIN_NAME}
       WORDPRESS_VERSION: ${WORDPRESS_VERSION}
@@ -36,45 +41,64 @@ services:
       WORDPRESS_DB_USER: ${MYSQL_USER}
       WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
       WORDPRESS_DB_NAME: ${MYSQL_DB_NAME}
-    volumes:
-      - type: bind
-        source: ~/data/wordpress
-        target: /var/www/html
     depends_on:
       - mariadb
-    networks:
-      - inception-network
-
-  adminer:
-    container_name: adminer
-    build:
-      context: ./requirements/bonus/adminer/
-      dockerfile: Dockerfile
     restart: always
-    depends_on:
-      - mariadb
-    networks:
-      - inception-network
-    ports:
-      - 8080:8080
 
   mariadb:
     container_name: mariadb
     build:
       context: ./requirements/mariadb/
       dockerfile: Dockerfile
-    restart: always
+    networks:
+        - inception-network
+    volumes:
+      - type: bind
+        source: ~/data/mariadb
+        target: /var/lib/mysql
     environment:
       MYSQL_DB_NAME: "${MYSQL_DB_NAME}"
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
       MYSQL_USER: "${MYSQL_USER}"
       MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+    restart: always
+
+  adminer:
+    container_name: adminer
+    build:
+      context: ./requirements/bonus/adminer/
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    networks:
+      - inception-network
+    depends_on:
+      - mariadb
+    restart: always
+
+  pure-ftpd:
+    container_name: pure-ftpd
+    build:
+      context: ./requirements/bonus/pure-ftpd/
+      dockerfile: Dockerfile
+    ports:
+      - 21:21
+      - 30000-30009:30000-30009
+    networks:
+      - inception-network
     volumes:
       - type: bind
-        source: ~/data/mariadb
-        target: /var/lib/mysql
-    networks:
-        - inception-network
+        source: ~/data/wordpress
+        target: /var/www/html
+    environment:
+      PUBLICHOST: ${FTP_PUBLICHOST}
+      FTP_USER_NAME: ${FTP_USER_NAME}
+      FTP_USER_PASS: ${FTP_USER_PASS}
+      FTP_USER_HOME: ${FTP_USER_HOME}
+    depends_on:
+      - wordpress
+    restart: always
+    platform: linux/86_64
 
 networks:
   inception-network:
