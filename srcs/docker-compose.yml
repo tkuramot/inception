@@ -13,20 +13,18 @@ services:
         target: /var/www/html
     depends_on:
       - wordpress
-      # - certbot
     networks:
       - inception-network
     ports:
       - 443:443
       - 80:80
-        
 
   wordpress:
     container_name: wordpress
     build:
       context: ./requirements/wordpress/
       dockerfile: Dockerfile
-    restart: unless-stopped
+    restart: always
     environment:
       DOMAIN_NAME: ${DOMAIN_NAME}
       WORDPRESS_VERSION: ${WORDPRESS_VERSION}
@@ -47,12 +45,25 @@ services:
     networks:
       - inception-network
 
+  adminer:
+    container_name: adminer
+    build:
+      context: ./requirements/bonus/adminer/
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - mariadb
+    networks:
+      - inception-network
+    ports:
+      - 8080:8080
+
   mariadb:
     container_name: mariadb
     build:
       context: ./requirements/mariadb/
       dockerfile: Dockerfile
-    restart: unless-stopped
+    restart: always
     environment:
       MYSQL_DB_NAME: "${MYSQL_DB_NAME}"
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
@@ -64,26 +75,6 @@ services:
         target: /var/lib/mysql
     networks:
         - inception-network
-
-  # certbot:
-  #   container_name: certbot
-  #   image: certbot/certbot:latest
-  #   restart: always
-  #   volumes:
-  #     - type: bind
-  #       source: ./requirements/bonus/certbot/certs
-  #       target: /etc/letsencrypt/live/$(DOMAIN_NAME)
-  #   command: >
-  #     -v
-  #     certonly --noninteractive
-  #     --agree-tos
-  #     --cert-name slickstack
-  #     -d ${DOMAIN_NAME}
-  #     --register-unsafely-without-email
-  #     --webroot -w /var/www/html/
-  #   networks:
-  #     - inception-network
-  #   platform: linux/x86_64
 
 networks:
   inception-network:
