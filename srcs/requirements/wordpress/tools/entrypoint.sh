@@ -7,7 +7,7 @@ config_file="${directory}/wp-config.php"
 
 # check if wordpress is already downloaded
 if [ ! -f "$index_file" ]; then
-  gosu www-data wp core download --locale=ja --version="${WORDPRESS_VERSION}"
+  gosu www-data wp core download --version="${WORDPRESS_VERSION}"
 fi
 
 # check if wp-config.php exists
@@ -29,7 +29,6 @@ if ! gosu www-data wp core is-installed; then
     --admin_password="${WORDPRESS_ADMIN_PASSWORD}" \
     --admin_email="${WORDPRESS_ADMIN_EMAIL}" \
     --skip-email
-  gosu www-data wp option update permalink_structure /%postname%/
 fi
 
 exec php-fpm7.4 -F
