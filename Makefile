@@ -1,7 +1,7 @@
-all: up
-
 WORDPRESS_DIR = ~/data/wordpress
 MARIA_DB_DIR = ~/data/mariadb
+
+all: up
 
 up: build
 	@docker compose -f ./srcs/docker-compose.yml up -d
@@ -23,42 +23,17 @@ mkdir:
 build: mkdir
 	@docker compose -f ./srcs/docker-compose.yml build $(if $(RE), --no-cache)
 
-# services
-# wordpress
-wp:
-	@docker exec -it wordpress bash
+wordpress:
+	@docker exec -it wordpress shell
 
-wp/build:
-	@docker compose -f ./srcs/docker-compose.yml build wordpress $(if $(RE), --no-cache)
+nginx:
+	@docker exec -it nginx sh
 
-wp/up:
-	@docker compose -f ./srcs/docker-compose.yml up -d wordpress
+maria_db:
+	@docker exec -it mariadb sh
 
-wp/log:
-	@docker logs wordpress
+adminer:
+	@docker exec -it adminer sh
 
-# mariadb
-db:
-	@docker exec -it mariadb bash
-
-db/build:
-	@docker compose -f ./srcs/docker-compose.yml build mariadb $(if $(RE), --no-cache)
-
-db/up:
-	@docker compose -f ./srcs/docker-compose.yml up -d mariadb
-
-db/log:
-	@docker logs mariadb
-
-# nginx
-ng:
-	@docker exec -it nginx bash
-
-ng/build:
-	@docker compose -f ./srcs/docker-compose.yml build nginx $(if $(RE), --no-cache)
-
-ng/up:
-	@docker compose -f ./srcs/docker-compose.yml up -d nginx
-
-ng/log:
-	@docker logs nginx
+node:
+	@docker exec -it node sh
