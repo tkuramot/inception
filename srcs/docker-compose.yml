@@ -39,6 +39,8 @@ services:
       WORDPRESS_DB_USER: ${MYSQL_USER}
       WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
       WORDPRESS_DB_NAME: ${MYSQL_DB_NAME}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
     depends_on:
       - mariadb
     restart: always
@@ -101,6 +103,14 @@ services:
       context: ./requirements/bonus/node/
     ports:
       - 3000:3000
+    networks:
+        - inception-network
+    restart: always
+    
+  redis:
+    container_name: redis
+    build:
+      context: ./requirements/bonus/redis/
     networks:
         - inception-network
     restart: always

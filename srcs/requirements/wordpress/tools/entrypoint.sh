@@ -33,4 +33,12 @@ if ! gosu www-data wp core is-installed --path="${directory}"; then
     --path="${directory}"
 fi
 
+# check if redis cache plugin is installed
+if ! gosu www-data wp plugin is-installed redis-cache --path="${directory}"; then
+  gosu www-data wp plugin install redis-cache --activate --path="${directory}"
+  gosu www-data wp config set WP_REDIS_HOST "${REDIS_HOST}"
+  gosu www-data wp config set WP_REDIS_PORT "${REDIS_PORT}"
+  gosu www-data wp redis enable --path="${directory}"
+fi
+
 exec php-fpm7.4 -F
