@@ -11,7 +11,7 @@ include ./srcs/.env
 all: up
 
 up: cert build
-	docker compose -f ./srcs/docker-compose.yml up -d
+	docker compose -f ./srcs/docker-compose.yml up $(if $(D), -d)
 
 down:
 	docker compose -f ./srcs/docker-compose.yml down
