@@ -103,10 +103,6 @@ services:
       - 3000:3000
     networks:
         - inception-network
-    # volumes:
-    #   - type: bind
-    #     source: ./requirements/bonus/node/
-    #     target: /app
     restart: always
 
 networks:
