@@ -29,7 +29,7 @@ services:
         source: ~/data/wordpress
         target: /var/www/html
     environment:
-      DOMAIN_NAME: ${DOMAIN_NAME}
+      DOMAIN_BLOG: ${DOMAIN_BLOG}
       WORDPRESS_VERSION: ${WORDPRESS_VERSION}
       WORDPRESS_TITLE: ${WORDPRESS_TITLE}
       WORDPRESS_ADMIN_USER: ${WORDPRESS_ADMIN_USER}

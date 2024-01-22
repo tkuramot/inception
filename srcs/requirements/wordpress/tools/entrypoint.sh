@@ -24,7 +24,7 @@ fi
 # check if WordPress is already installed
 if ! gosu www-data wp core is-installed --path="${directory}"; then
   gosu www-data wp core install \
-    --url="${DOMAIN_NAME}" \
+    --url="${DOMAIN_BLOG}" \
     --title="${WORDPRESS_TITLE}" \
     --admin_user="${WORDPRESS_ADMIN_USER}" \
     --admin_password="${WORDPRESS_ADMIN_PASSWORD}" \
