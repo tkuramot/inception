@@ -2,4 +2,6 @@
 certs/
 dist/
 node_modules/
-ssl/
+private.key
+server.csr
+server.crt
