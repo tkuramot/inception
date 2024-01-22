@@ -9,6 +9,7 @@ RUN set -x; \
 
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 COPY ./conf/default.conf /etc/nginx/conf.d/default.conf
+COPY ./ssl/* /etc/nginx/ssl/
 
 EXPOSE 443
 

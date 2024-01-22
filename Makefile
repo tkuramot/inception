@@ -10,7 +10,7 @@ include ./srcs/.env
 
 all: up
 
-up: build
+up: cert build
 	docker compose -f ./srcs/docker-compose.yml up -d
 
 down:
@@ -36,7 +36,7 @@ build: mkdir
 	docker compose -f ./srcs/docker-compose.yml build $(if $(RE), --no-cache)
 
 wordpress:
-	docker exec -it wordpress shell
+	docker exec -it wordpress sh
 
 nginx:
 	docker exec -it nginx sh
