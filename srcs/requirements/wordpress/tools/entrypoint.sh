@@ -13,10 +13,10 @@ fi
 # check if wp-config.php exists
 if [ ! -f "$config_file" ]; then
   gosu www-data wp config create \
-    --dbname="${WORDPRESS_DB_NAME}" \
-    --dbuser="${WORDPRESS_DB_USER}" \
-    --dbpass="${WORDPRESS_DB_PASSWORD}" \
-    --dbhost="${WORDPRESS_DB_HOST}" \
+    --dbname="${MYSQL_DB_NAME}" \
+    --dbuser="${MYSQL_USER}" \
+    --dbpass="${MYSQL_PASSWORD}" \
+    --dbhost="${MYSQL_HOST}" \
     --path="${directory}"
   gosu www-data wp db create --path="${directory}"
 fi

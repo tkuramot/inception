@@ -29,18 +29,18 @@ services:
         source: ~/data/wordpress
         target: /var/www/html
     environment:
-      DOMAIN_BLOG: ${DOMAIN_BLOG}
-      WORDPRESS_VERSION: ${WORDPRESS_VERSION}
-      WORDPRESS_TITLE: ${WORDPRESS_TITLE}
-      WORDPRESS_ADMIN_USER: ${WORDPRESS_ADMIN_USER}
-      WORDPRESS_ADMIN_PASSWORD: ${WORDPRESS_ADMIN_PASSWORD}
-      WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
-      WORDPRESS_DB_HOST: mariadb
-      WORDPRESS_DB_USER: ${MYSQL_USER}
-      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
-      WORDPRESS_DB_NAME: ${MYSQL_DB_NAME}
-      REDIS_HOST: ${REDIS_HOST}
-      REDIS_PORT: ${REDIS_PORT}
+      - DOMAIN_BLOG
+      - WORDPRESS_VERSION
+      - WORDPRESS_TITLE
+      - WORDPRESS_ADMIN_USER
+      - WORDPRESS_ADMIN_PASSWORD
+      - WORDPRESS_ADMIN_EMAIL
+      - MYSQL_HOST
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_DB_NAME
+      - REDIS_HOST
+      - REDIS_PORT
     depends_on:
       - mariadb
     restart: always
@@ -56,10 +56,10 @@ services:
         source: ~/data/mariadb
         target: /var/lib/mysql
     environment:
-      MYSQL_DB_NAME: "${MYSQL_DB_NAME}"
-      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-      MYSQL_USER: "${MYSQL_USER}"
-      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      - MYSQL_DB_NAME
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_USER
+      - MYSQL_PASSWORD
     restart: always
 
   adminer:
@@ -88,10 +88,10 @@ services:
         source: ~/data/wordpress
         target: /var/www/html
     environment:
-      PUBLICHOST: ${FTP_PUBLICHOST}
-      FTP_USER_NAME: ${FTP_USER_NAME}
-      FTP_USER_PASS: ${FTP_USER_PASS}
-      FTP_USER_HOME: ${FTP_USER_HOME}
+      - FTP_PUBLICHOST
+      - FTP_USER_NAME
+      - FTP_USER_PASS
+      - FTP_USER_HOME
     depends_on:
       - wordpress
     restart: always
