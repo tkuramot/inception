@@ -9,12 +9,9 @@ RUN set -eux; \
   rm -rf /var/lib/apt/lists/*
 
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
-COPY ./conf/template/* /etc/nginx/template/
+COPY ./conf/default.conf /etc/nginx/conf.d/default.conf
 COPY ./ssl/* /etc/nginx/ssl/
-
-COPY ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
 
 EXPOSE 443
 
-CMD ["entrypoint.sh"]
+CMD ["nginx"]
