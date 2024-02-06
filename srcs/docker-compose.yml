@@ -13,6 +13,7 @@ services:
       - ~/data/wordpress:/var/www/html
     environment:
       - DOMAIN_BLOG
+      - DOMAIN_GALLERY
     depends_on:
       - wordpress
       - node

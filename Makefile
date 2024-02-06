@@ -1,12 +1,12 @@
 WORDPRESS_DIR = ~/data/wordpress
 MARIA_DB_DIR = ~/data/mariadb
 CERT_DIR = ./srcs/requirements/nginx/ssl
-CERT_FILE_KEY = $(CERT_DIR)/private.key
-CERT_FILE_CSR = $(CERT_DIR)/server.csr
-CERT_FILE_CRT = $(CERT_DIR)/server.crt
+CERT_FILE_KEY = $(CERT_DIR)/$(DOMAIN).key
+CERT_FILE_CSR = $(CERT_DIR)/$(DOMAIN).csr
+CERT_FILE_CRT = $(CERT_DIR)/$(DOMAIN).crt
 DOMAIN =
 DOMAIN_BLOG =
-DOMAIN_CAT =
+DOMAIN_GALLERY =
 
 include ./srcs/.env
 
@@ -26,6 +26,7 @@ mkdir:
 
 build: mkdir
 	make cert DOMAIN=$(DOMAIN_BLOG)
+	make cert DOMAIN=$(DOMAIN_GALLERY)
 	docker compose -f ./srcs/docker-compose.yml build $(if $(RE), --no-cache)
 
 down:
