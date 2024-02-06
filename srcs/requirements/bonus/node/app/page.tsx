@@ -5,11 +5,10 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="">
         <Image
-          src="/vercel.svg"
-          alt="Vercel Logo"
-          className="dark:invert"
-          width={100}
-          height={24}
+          src="/elephants.jpg"
+          alt="elephants"
+          width={400}
+          height={300}
           priority
         />
       </div>

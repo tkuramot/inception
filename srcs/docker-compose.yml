@@ -98,7 +98,7 @@ services:
     networks:
       - inception-network
     restart: always
-    
+
   redis:
     container_name: redis
     build:
