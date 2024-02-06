@@ -11,6 +11,8 @@ services:
       - inception-network
     volumes:
       - ~/data/wordpress:/var/www/html
+    environment:
+      - DOMAIN_BLOG
     depends_on:
       - wordpress
       - node

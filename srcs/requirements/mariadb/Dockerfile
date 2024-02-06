@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-RUN set -x; \
+RUN set -eux; \
   apt-get update; \
   apt-get install -y --no-install-recommends \
   mariadb-server \
