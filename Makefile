@@ -13,7 +13,7 @@ include ./srcs/.env
 all: up
 
 up: build
-	docker compose -f ./srcs/docker-compose.yml up $(if $(D), -d)
+	docker compose -f ./srcs/docker-compose.yml up -d
 
 cert:
 	openssl genrsa 2048 > $(CERT_FILE_KEY)
