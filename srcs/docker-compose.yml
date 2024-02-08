@@ -126,8 +126,16 @@ services:
 volumes:
   wp-volume:
     name: wp-volume
+    driver_opts:
+      type: none
+      o: bind
+      device: ~/data/wordpress
   db-volume:
     name: db-volume
+    driver_opts:
+      type: none
+      o: bind
+      device: ~/data/mariadb
 
 networks:
   inception-network:
