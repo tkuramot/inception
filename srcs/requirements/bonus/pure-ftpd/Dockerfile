@@ -1,1 +1,1 @@
-FROM stilliard/pure-ftpd:hardened
+FROM gists/pure-ftpd:1.0.51
