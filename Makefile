@@ -26,12 +26,13 @@ build:
 	make cert DOMAIN=$(DOMAIN_GALLERY)
 	if [ ! -d $(WORDPRESS_DIR) ]; then mkdir -p $(WORDPRESS_DIR); fi
 	if [ ! -d $(MARIA_DB_DIR) ]; then mkdir -p $(MARIA_DB_DIR); fi
-	docker compose -f ./srcs/docker-compose.yml build $(if $(RE), --no-cache)
+	docker compose -f ./srcs/docker-compose.yml build --no-cache
 
 down:
 	docker compose -f ./srcs/docker-compose.yml down
 
 clean: down
+	$(RM) -r $(WORDPRESS_DIR) $(MARIA_DB_DIR) $(CERT_DIR)/*
 	docker rm -f `docker ps -a -q` || true
 	docker image prune -af
 	docker volume rm $(shell docker volume ls -q) || true
