@@ -34,7 +34,7 @@ down:
 clean: down
 	docker rm -f `docker ps -a -q` || true
 	docker image prune -af
-	docker volume prune -af
+	docker volume rm $(docker volume ls -qf dangling=true) || true
 	docker network prune -f
 
 
