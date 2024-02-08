@@ -1,14 +1,14 @@
 FROM debian:bullseye
 
-RUN set -eux; \
-  apt-get update; \
-  apt-get install -y --no-install-recommends \
+RUN set -ux \
+  && apt-get update \
+  && apt-get install -y --no-install-recommends \
   mariadb-server \
-  vim; \
-  rm -rf /var/lib/apt/lists/*; \
-  mkdir -p /var/lib/mysql /run/mysqld; \
-  chown -R mysql:mysql /var/lib/mysql /run/mysqld; \
-  chmod 1777 /run/mysqld
+  vim \
+  && rm -rf /var/lib/apt/lists/* \
+  && mkdir -p /var/lib/mysql /run/mysqld \
+  && chown -R mysql:mysql /var/lib/mysql /run/mysqld \
+  && chmod 1777 /run/mysqld
 
 COPY ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh

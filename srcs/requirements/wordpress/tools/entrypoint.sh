@@ -4,8 +4,7 @@ set -eux
 directory="/var/www/html"
 config_file="${directory}/wp-config.php"
 
-# check if wp-config.php exists
-if [ ! -f "$config_file" ]; then
+configure () {
   gosu www-data wp config create \
     --dbname="${MYSQL_DB_NAME}" \
     --dbuser="${MYSQL_USER}" \
@@ -13,10 +12,9 @@ if [ ! -f "$config_file" ]; then
     --dbhost="${MYSQL_HOST}" \
     --path="${directory}"
   gosu www-data wp db create --path="${directory}"
-fi
+}
 
-# check if WordPress is already installed
-if ! gosu www-data wp core is-installed --path="${directory}"; then
+install () {
   gosu www-data wp core install \
     --url="${DOMAIN_BLOG}" \
     --title="${WORDPRESS_TITLE}" \
@@ -25,14 +23,21 @@ if ! gosu www-data wp core is-installed --path="${directory}"; then
     --admin_email="${WORDPRESS_ADMIN_EMAIL}" \
     --skip-email \
     --path="${directory}"
-fi
+}
 
-# check if redis cache plugin is installed
-if ! gosu www-data wp plugin is-installed redis-cache --path="${directory}"; then
+plugin () {
   gosu www-data wp plugin install redis-cache --activate --path="${directory}"
   gosu www-data wp config set WP_REDIS_HOST "${REDIS_HOST}"
   gosu www-data wp config set WP_REDIS_PORT "${REDIS_PORT}"
   gosu www-data wp redis enable --path="${directory}"
-fi
+}
 
-exec php-fpm7.4 -F
+main () {
+  configure || true
+  install || true
+  plugin || true
+
+  exec php-fpm7.4 -F
+}
+
+main
