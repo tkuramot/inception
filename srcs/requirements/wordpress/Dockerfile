@@ -27,8 +27,6 @@ COPY ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-VOLUME /var/www/html
-
 EXPOSE 9000
 
 CMD ["entrypoint.sh"]
