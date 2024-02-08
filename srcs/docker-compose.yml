@@ -88,6 +88,7 @@ services:
     depends_on:
       - wordpress
     restart: always
+    platform: linux/86_64
 
   node:
     container_name: node
