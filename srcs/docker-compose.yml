@@ -10,7 +10,7 @@ services:
     networks:
       - inception-network
     volumes:
-      - ~/data/wordpress:/var/www/html
+      - wp-volume:/var/www/html
     environment:
       - DOMAIN_BLOG
       - DOMAIN_GALLERY
@@ -26,7 +26,7 @@ services:
     networks:
       - inception-network
     volumes:
-      - ~/data/wordpress:/var/www/html
+      - wp-volume:/var/www/html
     environment:
       - DOMAIN_BLOG
       - WORDPRESS_VERSION
@@ -51,7 +51,7 @@ services:
     networks:
         - inception-network
     volumes:
-      - ~/data/mariadb:/var/lib/mysql
+      - db-volume:/var/lib/mysql
     environment:
       - MYSQL_DB_NAME
       - MYSQL_ROOT_PASSWORD
@@ -79,7 +79,7 @@ services:
     networks:
       - inception-network
     volumes:
-      - ~/data/wordpress:/var/www/html
+      - wp-volume:/var/www/html
     environment:
       - FTP_PUBLICHOST
       - FTP_USER_NAME
@@ -122,6 +122,12 @@ services:
       - seccomp:unconfined
     pid: "host"
     network_mode: "host"
+
+volumes:
+  wp-volume:
+    name: wp-volume
+  db-volume:
+    name: db-volume
 
 networks:
   inception-network:

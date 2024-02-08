@@ -32,9 +32,11 @@ down:
 	docker compose -f ./srcs/docker-compose.yml down
 
 clean: down
-	$(RM) -r $(WORDPRESS_DIR) $(MARIA_DB_DIR) $(CERT_DIR)/*
-	docker image rmi $(shell docker image ls -q) 2> /dev/null || true
-	docker container rm $(shell docker container ls -aq) 2> /dev/null || true
+	docker rm -f `docker ps -a -q` || true
+	docker image prune -af
+	docker volume prune -af
+	docker network prune -f
+
 
 re: clean up
 

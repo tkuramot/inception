@@ -2,13 +2,7 @@
 set -eux
 
 directory="/var/www/html"
-index_file="${directory}/index.php"
 config_file="${directory}/wp-config.php"
-
-# check if wordpress is already downloaded
-if [ ! -f "$index_file" ]; then
-  gosu www-data wp core download --version="${WORDPRESS_VERSION}" --path="${directory}"
-fi
 
 # check if wp-config.php exists
 if [ ! -f "$config_file" ]; then
