@@ -30,33 +30,19 @@ temp_server_stop () {
 }
 
 create_user () {
-  user=$1
-  password=$2
-
-  if [ -z $user ] || [ -z $password ]; then
+  if [ -z $1 ] || [ -z $2 ]; then
     echo "user and password are required"
     exit 1
   fi
 
-  if mysql -u root -e "SELECT 1 FROM mysql.user WHERE user = '$user'" | grep -q 1; then
+  if mysql -u root -e "SELECT 1 FROM mysql.user WHERE user = '$1'" | grep -q 1; then
     return
   fi
 
   mysql -u root <<-EOSQL
-		CREATE USER '$user'@'%' IDENTIFIED BY '$password';
-		GRANT ALL PRIVILEGES ON *.* TO '$user WITH GRANT OPTION;
+		CREATE USER '$1'@'%' IDENTIFIED BY '$2';
+		GRANT ALL PRIVILEGES ON *.* TO '$1'@'%' WITH GRANT OPTION;
 		FLUSH PRIVILEGES;
-	EOSQL
-}
-
-create_db () {
-  db=$1
-  if [ -z $db ]; then
-    echo "db is required"
-    exit 1
-  fi
-  mysql -u root <<-EOSQL
-		CREATE DATABASE IF NOT EXISTS $db;
 	EOSQL
 }
 
@@ -68,7 +54,6 @@ main () {
 
   temp_server_start
   create_user "$MYSQL_USER" "$MYSQL_PASSWORD"
-  create_db "$MYSQL_DB_NAME"
   temp_server_stop
 
   exec mariadbd \
