@@ -46,6 +46,21 @@ create_user () {
 	EOSQL
 }
 
+create_db () {
+  if [ -z $1 ]; then
+    echo "database name is required"
+    exit 1
+  fi
+
+  if mysql -u root -e "SHOW DATABASES" | grep -q $1; then
+    return
+  fi
+
+  mysql -u root <<-EOSQL
+		CREATE DATABASE $1;
+	EOSQL
+}
+
 main () {
   # insatall db when it is not
   if [ ! -d /var/lib/mysql/mysql ]; then
@@ -54,6 +69,7 @@ main () {
 
   temp_server_start
   create_user "$MYSQL_USER" "$MYSQL_PASSWORD"
+  create_db "$MYSQL_DB_NAME"
   temp_server_stop
 
   exec mariadbd \
