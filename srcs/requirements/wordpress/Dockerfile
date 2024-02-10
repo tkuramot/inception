@@ -7,7 +7,7 @@ RUN set -ux \
   && apt-get update \
   && apt-get install -y --no-install-recommends \
   ca-certificates gosu \
-  wget php7.4 php7.4-mysqli php-fpm vim \
+  wget mariadb-client php7.4 php7.4-mysqli php-fpm vim \
   && rm -rf /var/lib/apt/lists/*
 
 RUN set -ux \

@@ -26,7 +26,7 @@ build:
 	make cert DOMAIN=$(DOMAIN_GALLERY)
 	if [ ! -d $(WORDPRESS_DIR) ]; then mkdir -p $(WORDPRESS_DIR); fi
 	if [ ! -d $(MARIA_DB_DIR) ]; then mkdir -p $(MARIA_DB_DIR); fi
-	docker compose -f ./srcs/docker-compose.yml build --no-cache
+	docker compose -f ./srcs/docker-compose.yml build $(if $(RE), --no-cache,)
 
 down:
 	docker compose -f ./srcs/docker-compose.yml down
@@ -38,9 +38,7 @@ clean: down
 	docker volume rm $(shell docker volume ls -q) || true
 	docker network prune -f
 
-
 re: clean up
-
 
 wordpress:
 	docker exec -it wordpress sh
@@ -48,7 +46,7 @@ wordpress:
 nginx:
 	docker exec -it nginx sh
 
-maria_db:
+mariadb:
 	docker exec -it mariadb sh
 
 adminer:
