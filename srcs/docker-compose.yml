@@ -79,16 +79,14 @@ services:
     networks:
       - inception-network
     volumes:
-      - wp-volume:/var/www/html
+      - wp-volume:/home/ftpuser
     environment:
       - FTP_PUBLICHOST
-      - FTP_USER_NAME
-      - FTP_USER_PASS
-      - FTP_USER_HOME
+      - FTP_USER
+      - FTP_PASSWORD
     depends_on:
       - wordpress
     restart: always
-    platform: linux/86_64
 
   node:
     container_name: node
