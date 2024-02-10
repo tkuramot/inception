@@ -12,6 +12,8 @@ RUN set -ux \
   && chown -R mysql:mysql /var/lib/mysql /run/mysqld \
   && chmod 1777 /run/mysqld
 
+COPY ./conf/mysql.cnf /etc/mysql/mysql.cnf
+
 COPY ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
