@@ -12,8 +12,6 @@ install () {
     --path="${directory}" \
     --force
 
-  # gosu www-data wp db create --path="${directory}"
-
   gosu www-data wp core install \
     --url="${DOMAIN_BLOG}" \
     --title="${WORDPRESS_TITLE}" \

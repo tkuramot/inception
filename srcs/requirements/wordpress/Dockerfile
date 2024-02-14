@@ -1,7 +1,7 @@
 FROM debian:bullseye
 
-WORKDIR /var/www/html
-ENV WP_CLI_CONFIG_PATH=/etc/wp-cli.yml
+ENV WORKDIR_PATH /var/www/html
+WORKDIR $WORKDIR_PATH
 
 RUN set -ux \
   && apt-get update \
@@ -17,11 +17,12 @@ RUN set -ux \
 
 RUN set -ux \
   && mkdir -p /var/www/html \
-  && chown -R www-data:www-data /var/www/html
+  && chown -R www-data:www-data $WORKDIR_PATH
+
+VOLUME $WORKDIR_PATH
 
 RUN set -ux \
   && gosu www-data wp core download
-
 
 COPY ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
