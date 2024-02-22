@@ -1,5 +1,8 @@
 FROM debian:bullseye
 
+ENV WORKDIR_PATH /var/www/html
+WORKDIR $WORKDIR_PATH
+
 RUN set -ux \
   && apt-get update \
   && apt-get install -y --no-install-recommends \
@@ -14,7 +17,7 @@ RUN set -ux \
 
 RUN set -ux \
   && mkdir -p /var/www/html \
-  && chown -R www-data:www-data /var/www/html
+  && chown -R www-data:www-data $WORKDIR_PATH
 
 VOLUME $WORKDIR_PATH
 
