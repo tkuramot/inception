@@ -37,6 +37,7 @@ clean: down
 	docker image prune -af
 	docker volume rm $(shell docker volume ls -q) || true
 	docker network prune -f
+	docker system prune -af
 
 re: clean up
 
