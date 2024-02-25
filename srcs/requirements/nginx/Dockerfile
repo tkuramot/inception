@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-RUN set -ux \
+RUN set -eux \
   && apt-get update \
   && apt-get install -y --no-install-recommends \
     gettext nginx vim \

@@ -3,25 +3,25 @@ FROM debian:bullseye
 ENV WORKDIR_PATH /var/www/html
 WORKDIR $WORKDIR_PATH
 
-RUN set -ux \
+RUN set -eux \
   && apt-get update \
   && apt-get install -y --no-install-recommends \
   ca-certificates gosu \
   wget mariadb-client php7.4 php7.4-mysqli php-fpm vim \
   && rm -rf /var/lib/apt/lists/*
 
-RUN set -ux \
+RUN set -eux \
   && wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -O /usr/local/bin/wp \
   && chmod +x /usr/local/bin/wp \
   && mkdir -p /run/php
 
-RUN set -ux \
+RUN set -eux \
   && mkdir -p /var/www/html \
   && chown -R www-data:www-data $WORKDIR_PATH
 
 VOLUME $WORKDIR_PATH
 
-RUN set -ux \
+RUN set -eux \
   && gosu www-data wp core download
 
 COPY ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
