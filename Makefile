@@ -41,6 +41,10 @@ clean: down
 
 re: clean up
 
+open:
+	open https://$(DOMAIN_GALLERY)
+	open https://$(DOMAIN_BLOG)
+
 wordpress:
 	docker exec -it wordpress sh
 
