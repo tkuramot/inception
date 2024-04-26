@@ -8,6 +8,3 @@ RUN pnpm install --prod --frozen-lockfile
 
 COPY . .
 RUN pnpm build
-
-EXPOSE 3000
-CMD ["pnpm", "serve"]

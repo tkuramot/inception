@@ -105,8 +105,10 @@ server {
 
   server_name $DOMAIN_GALLERY;
 
+  root /var/www/html/node/dist;
+
   location / {
-    proxy_pass http://node:3000;
+    try_files $uri $uri/ /index.html;
   }
 }
 

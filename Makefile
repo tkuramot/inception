@@ -1,5 +1,6 @@
 WORDPRESS_DIR = ~/data/wordpress
 MARIA_DB_DIR = ~/data/mariadb
+NODE_DIR = ~/data/node
 CERT_DIR = ./srcs/requirements/nginx/ssl
 CERT_FILE_KEY = $(CERT_DIR)/$(DOMAIN).key
 CERT_FILE_CSR = $(CERT_DIR)/$(DOMAIN).csr
@@ -26,6 +27,7 @@ build:
 	make cert DOMAIN=$(DOMAIN_GALLERY)
 	if [ ! -d $(WORDPRESS_DIR) ]; then mkdir -p $(WORDPRESS_DIR); fi
 	if [ ! -d $(MARIA_DB_DIR) ]; then mkdir -p $(MARIA_DB_DIR); fi
+	if [ ! -d $(NODE_DIR) ]; then mkdir -p $(NODE_DIR); fi
 	docker compose -f ./srcs/docker-compose.yml build $(if $(RE), --no-cache,)
 
 stop:

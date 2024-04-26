@@ -9,6 +9,7 @@ services:
       - inception-network
     volumes:
       - wp-volume:/var/www/html
+      - node-volume:/var/www/html/node
     environment:
       - DOMAIN_BLOG
       - DOMAIN_GALLERY
@@ -92,7 +93,8 @@ services:
       context: ./requirements/bonus/node/
     networks:
       - inception-network
-    restart: always
+    volumes:
+      - node-volume:/app
 
   redis:
     container_name: redis
@@ -124,6 +126,12 @@ volumes:
       type: none
       o: bind
       device: ${HOME}/data/wordpress
+  node-volume:
+    name: node-volume
+    driver_opts:
+      type: none
+      o: bind
+      device: ${HOME}/data/node
   db-volume:
     name: db-volume
     driver_opts:
