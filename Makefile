@@ -28,6 +28,9 @@ build:
 	if [ ! -d $(MARIA_DB_DIR) ]; then mkdir -p $(MARIA_DB_DIR); fi
 	docker compose -f ./srcs/docker-compose.yml build $(if $(RE), --no-cache,)
 
+stop:
+	docker compose -f ./srcs/docker-compose.yml stop
+
 down:
 	docker compose -f ./srcs/docker-compose.yml down
 
