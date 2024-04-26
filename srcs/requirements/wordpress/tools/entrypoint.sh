@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eux
 
-directory="/var/www/html"
+directory="/var/www/html/wp"
 
 install () {
   gosu www-data wp config create \

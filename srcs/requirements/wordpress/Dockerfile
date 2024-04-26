@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-ENV WORKDIR_PATH /var/www/html
+ENV WORKDIR_PATH /var/www/html/wp
 WORKDIR $WORKDIR_PATH
 
 RUN set -eux \
