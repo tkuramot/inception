@@ -11,9 +11,9 @@ DOMAIN_GALLERY =
 
 include ./srcs/.env
 
-all: up
+all: build up
 
-up: build
+up:
 	docker compose -f ./srcs/docker-compose.yml up -d
 
 cert:

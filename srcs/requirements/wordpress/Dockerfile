@@ -17,12 +17,10 @@ RUN set -eux \
 
 RUN set -eux \
   && mkdir -p $WORKDIR_PATH \
-  && chown -R www-data:www-data $WORKDIR_PATH
+  && chown -R www-data:www-data /var/www \
+  && gosu www-data wp core download
 
 VOLUME $WORKDIR_PATH
-
-RUN set -eux \
-  && gosu www-data wp core download
 
 COPY ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf

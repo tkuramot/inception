@@ -12,7 +12,7 @@ install () {
     --dbpass="${MYSQL_PASSWORD}" \
     --dbhost="${MYSQL_HOST}" \
     --path="${directory}" \
-    --force || ls -l ..
+    --force
 
   gosu www-data wp core install \
     --url="${DOMAIN_BLOG}" \
