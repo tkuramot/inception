@@ -25,9 +25,6 @@ cert:
 build:
 	make cert DOMAIN=$(DOMAIN_BLOG)
 	make cert DOMAIN=$(DOMAIN_GALLERY)
-	if [ ! -d $(WORDPRESS_DIR) ]; then mkdir -p $(WORDPRESS_DIR); fi
-	if [ ! -d $(MARIA_DB_DIR) ]; then mkdir -p $(MARIA_DB_DIR); fi
-	if [ ! -d $(NODE_DIR) ]; then mkdir -p $(NODE_DIR); fi
 	docker compose -f ./srcs/docker-compose.yml build $(if $(RE), --no-cache,)
 
 stop:

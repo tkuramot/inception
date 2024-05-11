@@ -14,8 +14,10 @@ services:
       - DOMAIN_BLOG
       - DOMAIN_GALLERY
     depends_on:
-      - wordpress
-      - node
+      wordpress:
+        condition: service_healthy
+      node:
+        condition: service_completed_successfully
     restart: always
 
   wordpress:
@@ -40,7 +42,13 @@ services:
       - REDIS_HOST
       - REDIS_PORT
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "localhost:9000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     restart: always
 
   mariadb:
@@ -56,6 +64,11 @@ services:
       - MYSQL_ROOT_PASSWORD
       - MYSQL_USER
       - MYSQL_PASSWORD
+    healthcheck:
+      test: ["CMD", "mysql", "-u${MYSQL_USER}", "-p${MYSQL_PASSWORD}", "-e", "use ${MYSQL_DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     restart: always
 
   adminer:
@@ -65,7 +78,8 @@ services:
     networks:
       - inception-network
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
     restart: always
 
   pure-ftpd:
@@ -84,7 +98,8 @@ services:
       - FTP_USER
       - FTP_PASSWORD
     depends_on:
-      - wordpress
+      wordpress:
+        condition: service_healthy
     restart: always
 
   node:
@@ -95,6 +110,7 @@ services:
       - inception-network
     volumes:
       - node-volume:/app
+    restart: on-failure
 
   redis:
     container_name: redis
@@ -118,6 +134,7 @@ services:
       - seccomp:unconfined
     pid: "host"
     network_mode: "host"
+    restart: always
 
 volumes:
   wp-volume:

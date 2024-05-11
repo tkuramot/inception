@@ -3,6 +3,8 @@ set -eux
 
 directory="/var/www/html/wp"
 
+chown -R www-data:www-data "${directory}"
+
 install () {
   gosu www-data wp config create \
     --dbname="${MYSQL_DB_NAME}" \
@@ -10,7 +12,7 @@ install () {
     --dbpass="${MYSQL_PASSWORD}" \
     --dbhost="${MYSQL_HOST}" \
     --path="${directory}" \
-    --force
+    --force || ls -l ..
 
   gosu www-data wp core install \
     --url="${DOMAIN_BLOG}" \

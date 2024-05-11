@@ -16,7 +16,7 @@ RUN set -eux \
   && mkdir -p /run/php
 
 RUN set -eux \
-  && mkdir -p /var/www/html \
+  && mkdir -p $WORKDIR_PATH \
   && chown -R www-data:www-data $WORKDIR_PATH
 
 VOLUME $WORKDIR_PATH
