@@ -1,11 +1,11 @@
 #!/bin/bash
-set -eux
+set -ux
 
 directory="/var/www/html/wp"
 
 chown -R www-data:www-data "${directory}"
 
-install () {
+install_wp () {
   gosu www-data wp config create \
     --dbname="${MYSQL_DB_NAME}" \
     --dbuser="${MYSQL_USER}" \
@@ -23,19 +23,19 @@ install () {
     --path="${directory}"
 }
 
-redis () {
-  gosu www-data wp plugin install redis-cache --activate --path="${directory}"
+install_plugins () {
   gosu www-data wp config set WP_REDIS_HOST "${REDIS_HOST}"
   gosu www-data wp config set WP_REDIS_PORT "${REDIS_PORT}"
+  gosu www-data wp plugin install redis-cache --activate --path="${directory}"
   gosu www-data wp redis enable --path="${directory}"
 }
 
 main () {
   if ! gosu www-data wp core is-installed --path="${directory}"; then
-    install
+    install_wp
   fi
   if ! gosu www-data wp plugin is-installed redis-cache --path="${directory}"; then
-    redis
+    install_plugins
   fi
 
   exec php-fpm7.4 -F

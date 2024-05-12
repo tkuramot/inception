@@ -7,7 +7,7 @@ RUN set -eux \
   && apt-get update \
   && apt-get install -y --no-install-recommends \
   ca-certificates gosu \
-  wget mariadb-client php7.4 php7.4-mysqli php-fpm vim \
+  wget lsof mariadb-client php7.4 php7.4-mysqli php-fpm vim \
   && rm -rf /var/lib/apt/lists/*
 
 RUN set -eux \
@@ -17,7 +17,7 @@ RUN set -eux \
 
 RUN set -eux \
   && mkdir -p $WORKDIR_PATH \
-  && chown -R www-data:www-data /var/www \
+  && chown -R www-data:www-data $WORKDIR_PATH \
   && gosu www-data wp core download
 
 VOLUME $WORKDIR_PATH
