@@ -1,35 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+interface Task {
+  id: number;
+  text: string;
 }
 
-export default App
+const App: React.FC = () => {
+  const [task, setTask] = useState<string>("");
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTask(e.target.value);
+  };
+
+  const handleAddTask = () => {
+    if (task.trim() === "") return;
+    const newTask: Task = { id: tasks.length + 1, text: task };
+    setTasks([...tasks, newTask]);
+    setTask("");
+  };
+
+  return (
+    <div className="App">
+      <header className="App-header">
+        <h1>Task Manager</h1>
+        <div>
+          <input
+            type="text"
+            value={task}
+            onChange={handleInputChange}
+            placeholder="Enter a task"
+          />
+          <button onClick={handleAddTask}>Add Task</button>
+        </div>
+        <ul>
+          {tasks.map((task) => (
+            <li key={task.id}>{task.text}</li>
+          ))}
+        </ul>
+      </header>
+    </div>
+  );
+};
+
+export default App;
