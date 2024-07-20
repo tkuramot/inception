@@ -14,9 +14,9 @@ include ./srcs/.env
 all: build up
 
 up:
-	if [ ! -d $(WORDPRESS_DIR) ]; mkdir -p $(WORDPRESS_DIR); fi
-	if [ ! -d $(MARIA_DB_DIR) ]; mkdir -p $(MARIA_DB_DIR); fi
-	if [ ! -d $(NODE_DIR) ]; mkdir -p $(NODE_DIR); fi
+	if [ ! -d $(WORDPRESS_DIR) ]; then mkdir -p $(WORDPRESS_DIR); fi
+	if [ ! -d $(MARIA_DB_DIR) ]; then mkdir -p $(MARIA_DB_DIR); fi
+	if [ ! -d $(NODE_DIR) ]; then mkdir -p $(NODE_DIR); fi
 	docker compose -f ./srcs/docker-compose.yml up -d
 
 cert:
