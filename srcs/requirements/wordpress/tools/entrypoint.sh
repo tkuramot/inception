@@ -3,9 +3,15 @@ set -ux
 
 directory="/var/www/html/wp"
 
-chown -R www-data:www-data "${directory}"
+if [ ! -d "${directory}" ]; then
+  mkdir -p "${directory}"
+  chown -R www-data:www-data "${directory}"
+fi
 
 install_wp () {
+  gosu www-data wp core download \
+    --path="${directory}"
+
   gosu www-data wp config create \
     --dbname="${MYSQL_DB_NAME}" \
     --dbuser="${MYSQL_USER}" \

@@ -15,16 +15,11 @@ RUN set -eux \
   && chmod +x /usr/local/bin/wp \
   && mkdir -p /run/php
 
-RUN set -eux \
-  && mkdir -p $WORKDIR_PATH \
-  && chown -R www-data:www-data $WORKDIR_PATH \
-  && gosu www-data wp core download
-
-VOLUME $WORKDIR_PATH
-
 COPY ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 RUN chmod +x /usr/local/bin/entrypoint.sh
+
+VOLUME $WORKDIR_PATH
 
 EXPOSE 9000
 
