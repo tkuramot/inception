@@ -10,6 +10,9 @@ COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 COPY ./conf/default.conf /etc/nginx/conf.d/default.conf
 COPY ./ssl/* /etc/nginx/ssl/
 
+COPY ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 EXPOSE 443
 
-CMD ["nginx"]
+CMD ["entrypoint.sh"]
