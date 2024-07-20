@@ -3,10 +3,7 @@ set -ux
 
 directory="/var/www/html/wp"
 
-if [ ! -d "${directory}" ]; then
-  mkdir -p "${directory}"
-  chown -R www-data:www-data "${directory}"
-fi
+chown -R www-data:www-data "${directory}"
 
 install_wp () {
   gosu www-data wp core download \
