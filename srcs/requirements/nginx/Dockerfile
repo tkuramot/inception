@@ -7,7 +7,7 @@ RUN set -eux \
   && rm -rf /var/lib/apt/lists/*
 
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
-COPY ./conf/default.conf /etc/nginx/template/default.conf
+COPY ./conf/default.conf /etc/nginx/conf.d/default.conf
 COPY ./ssl/* /etc/nginx/ssl/
 
 EXPOSE 443
