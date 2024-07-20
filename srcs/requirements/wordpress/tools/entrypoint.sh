@@ -21,6 +21,13 @@ install_wp () {
     --admin_password="${WORDPRESS_ADMIN_PASSWORD}" \
     --admin_email="${WORDPRESS_ADMIN_EMAIL}" \
     --path="${directory}"
+
+  gosu www-data wp user create \
+    --role=editor \
+    "${WORDPRESS_EDITOR_USER}" \
+    "${WORDPRESS_EDITOR_EMAIL}" \
+    --user_pass="${WORDPRESS_EDITOR_PASSWORD}" \
+    --path="${directory}"
 }
 
 install_plugins () {
